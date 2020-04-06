@@ -14,8 +14,10 @@ public class Controller {
         env.load();
 
         // prepare data for solver
+        env.prepareV();
+        env.prepareE();
 
-        // solve labyrinth (possible with live imaging of the process)
+        // find path from starting point to destination (possible with live imaging of the process)
 
         // draw shortest way trough the labyrinth
     }

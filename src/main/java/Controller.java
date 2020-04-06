@@ -10,8 +10,8 @@ public class Controller {
         String path = args[0];
 
         // create labyrinth
-        Labyrinth labyrinth = new Labyrinth(path);
-        labyrinth.load();
+        Environment env = new Environment(path);
+        env.load();
 
         // prepare data for solver
 

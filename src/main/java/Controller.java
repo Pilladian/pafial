@@ -9,7 +9,9 @@ public class Controller {
         // get path of labyrinth
         String path = args[0];
 
-        // read in labyrinth
+        // create labyrinth
+        Labyrinth labyrinth = new Labyrinth(path);
+        labyrinth.load();
 
         // prepare data for solver
 

@@ -16,7 +16,7 @@ public class Environment {
     // Nodes of the graph
     Node[][] V = new Node[amount_squares][amount_squares];
     // Connections of the graph
-    Connection[] E = new Connection[2*amount_squares*(amount_squares - 1)];
+    Connection[] E = new Connection[2 * amount_squares * (amount_squares - 1)];
 
     // Shortest path
     ArrayList<Node> path = new ArrayList<>();
@@ -77,16 +77,16 @@ public class Environment {
 
                 if (black) {
                     // mark not reachable area
-                    V[a-1][b-1] = new Node("not reachable", a, b, false, false);
+                    V[a - 1][b - 1] = new Node("not reachable", a, b, false, false);
                 } else if (red) {
                     // mark starting point
-                    V[a-1][b-1] = new Node("reachable", a, b, true, false);
+                    V[a - 1][b - 1] = new Node("reachable", a, b, true, false);
                 } else if (blue) {
                     // mark destination point
-                    V[a-1][b-1] = new Node("reachable", a, b, false, true);
+                    V[a - 1][b - 1] = new Node("reachable", a, b, false, true);
                 } else {
                     // mark reachable area
-                    V[a-1][b-1] = new Node("reachable", a, b, false, false);
+                    V[a - 1][b - 1] = new Node("reachable", a, b, false, false);
                 }
             }
         }
@@ -97,7 +97,7 @@ public class Environment {
         // connect horizontal
         for (int y = 0; y < amount_squares; y++) {
             for (int x = 1; x < amount_squares; x++) {
-                if (V[x-1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
+                if (V[x - 1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
                     E[count] = new Connection(1, V[x - 1][y], V[x][y]);
                 }
             }
@@ -105,7 +105,7 @@ public class Environment {
         // connect vertical
         for (int x = 1; x < amount_squares; x++) {
             for (int y = 0; y < amount_squares; y++) {
-                if (V[x-1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
+                if (V[x - 1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
                     E[count] = new Connection(1, V[x - 1][y], V[x][y]);
                 }
             }
@@ -113,14 +113,14 @@ public class Environment {
     }
 
     public void prepareV() {
-        for (Connection connection: E) {
+        for (Connection connection : E) {
             connection.partA.addNeighbor(connection.partB);
             connection.partB.addNeighbor(connection.partA);
         }
     }
 
     public void printParameter() {
-        for (Connection connection: E) {
+        for (Connection connection : E) {
             System.out.println("A[" + connection.partA.x + "," + connection.partA.y + "] -> B[" + connection.partB.x + "," + connection.partB.y + "]");
             System.out.println("B[" + connection.partB.x + "," + connection.partB.y + "] -> A[" + connection.partA.x + "," + connection.partA.y + "]");
             System.out.println(".");

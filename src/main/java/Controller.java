@@ -19,10 +19,10 @@ public class Controller {
         env.prepareV();
 
         // find path from starting point to destination (possible with live imaging of the process)
-        env.printParameter();
+        // env.printParameter(false, true);
 
         // draw shortest way trough the labyrinth
-        env.dijkstra(true);
+        env.bellmanFord();
     }
 
     private static void help() {

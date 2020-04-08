@@ -9,7 +9,7 @@ public class Node {
     boolean destination;
 
     Node previous = null;
-    int distance = 1000000;
+    int distance = 1000;
 
     ArrayList<Node> neighbors = new ArrayList<>();
 
@@ -23,5 +23,11 @@ public class Node {
 
     public void addNeighbor(Node node) {
         neighbors.add(node);
+    }
+
+    public void Path(ArrayList<Node> path) {
+        if (!startingPoint) {
+            path.add(previous);
+        }
     }
 }

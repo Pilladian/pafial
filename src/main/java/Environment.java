@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Environment {
 
@@ -16,7 +17,7 @@ public class Environment {
     // Nodes of the graph
     Node[][] V = new Node[amount_squares][amount_squares];
     // Connections of the graph
-    Connection[] E = new Connection[2 * amount_squares * (amount_squares - 1)];
+    ArrayList<Connection> E = new ArrayList<>();
 
     // Shortest path
     ArrayList<Node> path = new ArrayList<>();
@@ -92,19 +93,22 @@ public class Environment {
         for (int y = 0; y < amount_squares; y++) {
             for (int x = 1; x < amount_squares; x++) {
                 if (V[x - 1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
-                    E[count] = new Connection(1, V[x - 1][y], V[x][y]);
-                    E[count].partA = V[x - 1][y];
-                    E[count].partB = V[x][y];
+                    E.add(new Connection(1, V[x - 1][y], V[x][y]));
+                    E.get(count).partA = V[x - 1][y];
+                    E.get(count).partB = V[x][y];
+                    count++;
                 }
             }
         }
         // connect vertical
+        count = 0;
         for (int x = 1; x < amount_squares; x++) {
             for (int y = 0; y < amount_squares; y++) {
                 if (V[x - 1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
-                    E[count] = new Connection(1, V[x - 1][y], V[x][y]);
-                    E[count].partA = V[x - 1][y];
-                    E[count].partB = V[x][y];
+                    E.add(new Connection(1, V[x - 1][y], V[x][y]));
+                    E.get(count).partA = V[x - 1][y];
+                    E.get(count).partB = V[x][y];
+                    count++;
                 }
             }
         }
@@ -121,7 +125,7 @@ public class Environment {
         for (Connection connection : E) {
             System.out.println("A[" + connection.partA.x + "," + connection.partA.y + "] -> B[" + connection.partB.x + "," + connection.partB.y + "]");
             System.out.println("B[" + connection.partB.x + "," + connection.partB.y + "] -> A[" + connection.partA.x + "," + connection.partA.y + "]");
-            System.out.println(".");
+            System.out.println(" ");
         }
     }
 

@@ -11,21 +11,24 @@ public class Controller {
 
         // create labyrinth
         Environment env = new Environment(path);
-        env.load();
+        env.loadImage();
 
         // prepare data for solver
-        env.prepareV();
+        env.loadV();
         env.prepareE();
+        env.prepareV();
 
         // find path from starting point to destination (possible with live imaging of the process)
+        env.printParameter();
 
         // draw shortest way trough the labyrinth
+        env.dijkstra(true);
     }
 
     private static void help() {
-        System.out.println("Correct usage:\n\tjava -jar labso.jar </path/to/labyrinth.png>");
-        System.out.println("\nDefault configuration of image files and labso.jar");
+        System.out.println("Correct usage:\n\tjava -jar pafial.jar </path/to/labyrinth.png>");
+        System.out.println("\nDefault configuration of image files and pafial.jar");
         System.out.println("\tSize of Image-file = 500x500 pixel");
-        System.out.println("\tSize of Labyrinth = 25x25 squares");
+        System.out.println("\tSize of Image-file = 20x20 squares");
     }
 }

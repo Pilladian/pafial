@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class Environment {
 
@@ -13,15 +14,18 @@ public class Environment {
     int amount_squares = 20;
 
     // Nodes of the graph
-    Node[][] V;
+    Node[][] V = new Node[amount_squares][amount_squares];
     // Connections of the graph
     Connection[] E = new Connection[2*amount_squares*(amount_squares - 1)];
+
+    // Shortest path
+    ArrayList<Node> path = new ArrayList<>();
 
     public Environment(String path) {
         file = new File(path);
     }
 
-    public void load() {
+    public void loadImage() {
         try {
             image = ImageIO.read(file);
         } catch (Exception e) {
@@ -30,15 +34,15 @@ public class Environment {
         }
     }
 
-    public void prepareV() {
+    public void loadV() {
         int mul = size / amount_squares;
 
         // loop through every square
-        for (int a = 0; a < amount_squares; a++) {
+        for (int a = 1; a <= amount_squares; a++) {
             int xMin = a * mul - mul;
             int xMax = a * mul;
 
-            for (int b = 0; b < amount_squares; b++) {
+            for (int b = 1; b <= amount_squares; b++) {
                 int yMin = b * mul - mul;
                 int yMax = b * mul;
 
@@ -51,13 +55,20 @@ public class Environment {
                 for (int x = xMin; x < xMax; x++) {
                     for (int y = yMin; y < yMax; y++) {
                         int rgb = image.getRGB(x, y);
-                        if (rgb == 0) {
+                        if (((rgb & 0x00ffffff) >> 16) == 0) {
+                            System.out.println("Black");
+
                             black = true;
                             break;
                         } else if (((rgb & 0x00ff0000) >> 16) != 0) {
+                            System.out.println("Red");
+
+
                             red = true;
                             break;
                         } else if (((rgb & 0x000000ff)) != 0) {
+                            System.out.println("Blue");
+
                             blue = true;
                             break;
                         }
@@ -66,16 +77,16 @@ public class Environment {
 
                 if (black) {
                     // mark not reachable area
-                    V[a][b] = new Node("not reachable", a, b, false, false);
+                    V[a-1][b-1] = new Node("not reachable", a, b, false, false);
                 } else if (red) {
                     // mark starting point
-                    V[a][b] = new Node("reachable", a, b, true, false);
+                    V[a-1][b-1] = new Node("reachable", a, b, true, false);
                 } else if (blue) {
                     // mark destination point
-                    V[a][b] = new Node("reachable", a, b, false, true);
+                    V[a-1][b-1] = new Node("reachable", a, b, false, true);
                 } else {
                     // mark reachable area
-                    V[a][b] = new Node("reachable", a, b, false, false);
+                    V[a-1][b-1] = new Node("reachable", a, b, false, false);
                 }
             }
         }
@@ -83,10 +94,48 @@ public class Environment {
 
     public void prepareE() {
         int count = 0;
+        // connect horizontal
         for (int y = 0; y < amount_squares; y++) {
             for (int x = 1; x < amount_squares; x++) {
-                E[count] = new Connection(V[x-1][y], V[x][y]);
+                if (V[x-1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
+                    E[count] = new Connection(1, V[x - 1][y], V[x][y]);
+                }
             }
         }
+        // connect vertical
+        for (int x = 1; x < amount_squares; x++) {
+            for (int y = 0; y < amount_squares; y++) {
+                if (V[x-1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
+                    E[count] = new Connection(1, V[x - 1][y], V[x][y]);
+                }
+            }
+        }
+    }
+
+    public void prepareV() {
+        for (Connection connection: E) {
+            connection.partA.addNeighbor(connection.partB);
+            connection.partB.addNeighbor(connection.partA);
+        }
+    }
+
+    public void printParameter() {
+        for (Connection connection: E) {
+            System.out.println("A[" + connection.partA.x + "," + connection.partA.y + "] -> B[" + connection.partB.x + "," + connection.partB.y + "]");
+            System.out.println("B[" + connection.partB.x + "," + connection.partB.y + "] -> A[" + connection.partA.x + "," + connection.partA.y + "]");
+            System.out.println(".");
+        }
+    }
+
+    public void bellmanFord(boolean showProcess) {
+        // TODO
+    }
+
+    public void dijkstra(boolean showProcess) {
+        // TODO
+    }
+
+    public void drawShortestPath() {
+        // TODO
     }
 }

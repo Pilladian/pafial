@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Environment {
@@ -11,7 +12,7 @@ public class Environment {
 
     // image variables
     int size = 500;
-    int amount_squares = 5;
+    int amount_squares = 20;
 
     // Nodes of the graph
     ArrayList<Node> V = new ArrayList<>();
@@ -145,36 +146,60 @@ public class Environment {
         }
     }
 
-    public void bellmanFord() {
-        bellmanFordHelperFunction(start);
-
-        if (destination.previous != null) {
-            System.out.println("Path found: " + path.toString());
-        }
-
-    }
-
-    public void bellmanFordHelperFunction(Node node) {
+    public void BellmanFord(Node node) {
+        node.visited = true;
         for (Node out : node.neighbors) {
-            if (node.distance + 1 < out.distance) {
-                out.distance = node.distance + 1;
+
+            if (node.distance + getWeight(node, out) < out.distance) {
+                out.distance = node.distance + getWeight(node, out);
                 out.previous = node;
             }
-            if (!out.destination) {
-                bellmanFordHelperFunction(out);
+            if (!out.destination && !out.visited) {
+                BellmanFord(out);
             }
         }
     }
 
-    private void getPath() {
+    private int getWeight(Node a, Node b) {
+        for (Connection e : E) {
+            if ((a.equals(e.partA) && b.equals(e.partB)) || (b.equals(e.partA) && a.equals(e.partB))) {
+                return e.value;
+            }
+        }
+        return 1000;
+    }
+
+    public void getPath() {
+        path.add(start);
         destination.Path(path);
     }
 
-    public void dijkstra(boolean showProcess) {
-        // TODO
+    public void drawShortestPath() {
+        int mul = size / amount_squares;
+        for (Node node : path) {
+            int xMin = (node.x + 1) * mul - mul;
+            int xMax = (node.x + 1) * mul;
+            int yMin = (node.x + 1) * mul - mul;
+            int yMax = (node.x + 1) * mul;
+            for (int a = xMin; a < xMax; a++) {
+                for (int b = yMin; b < yMax; b++) {
+                    image.setRGB(a, b, 0x0000ff00);
+                }
+            }
+        }
+        System.out.println("Path found: " + pathToString());
+        try {
+            ImageIO.write(image, "", new File("/home/us3r/Downloads/test.png"));
+        } catch (IOException ox) {
+            ox.printStackTrace();
+        }
     }
 
-    public void drawShortestPath() {
-        // TODO
+    public String pathToString() {
+        StringBuilder stringPath = new StringBuilder();
+        for (Node node : path) {
+            stringPath.append(node.toString()).append(" ");
+        }
+        return stringPath.toString();
     }
 }

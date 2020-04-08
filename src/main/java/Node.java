@@ -7,6 +7,7 @@ public class Node {
     int y;
     boolean startingPoint;
     boolean destination;
+    boolean visited = false;
 
     Node previous = null;
     int distance = 1000;
@@ -28,6 +29,12 @@ public class Node {
     public void Path(ArrayList<Node> path) {
         if (!startingPoint) {
             path.add(previous);
+            previous.Path(path);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "[" + x + "," + y + "]";
     }
 }

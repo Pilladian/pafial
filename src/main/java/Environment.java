@@ -55,20 +55,14 @@ public class Environment {
                 for (int x = xMin; x < xMax; x++) {
                     for (int y = yMin; y < yMax; y++) {
                         int rgb = image.getRGB(x, y);
-                        if (((rgb & 0x00ffffff) >> 16) == 0) {
-                            System.out.println("Black");
 
+                        if (((rgb & 0x00ffffff) >> 16) == 0) {
                             black = true;
                             break;
-                        } else if (((rgb & 0x00ff0000) >> 16) != 0) {
-                            System.out.println("Red");
-
-
+                        } else if (rgb != -1 && ((rgb & 0x00ff0000) >> 16) == 255) {
                             red = true;
                             break;
-                        } else if (((rgb & 0x000000ff)) != 0) {
-                            System.out.println("Blue");
-
+                        } else if (rgb != -1 && ((rgb & 0x000000ff)) != 0) {
                             blue = true;
                             break;
                         }
@@ -99,6 +93,8 @@ public class Environment {
             for (int x = 1; x < amount_squares; x++) {
                 if (V[x - 1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
                     E[count] = new Connection(1, V[x - 1][y], V[x][y]);
+                    E[count].partA = V[x - 1][y];
+                    E[count].partB = V[x][y];
                 }
             }
         }
@@ -107,6 +103,8 @@ public class Environment {
             for (int y = 0; y < amount_squares; y++) {
                 if (V[x - 1][y].value.equals("reachable") && V[x][y].value.equals("reachable")) {
                     E[count] = new Connection(1, V[x - 1][y], V[x][y]);
+                    E[count].partA = V[x - 1][y];
+                    E[count].partB = V[x][y];
                 }
             }
         }

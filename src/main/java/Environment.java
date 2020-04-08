@@ -62,7 +62,7 @@ public class Environment {
                 if (rgb != -1 && ((rgb & 0x00ff0000) >> 16) == 255) {
                     red = true;
                 }
-                if (rgb == -16776961) {
+                if (rgb != -1 && (rgb & 0x000000ff) == 255) {
                     blue = true;
                 }
 
@@ -160,7 +160,7 @@ public class Environment {
                 out.distance = node.distance + 1;
                 out.previous = node;
             }
-            if (!node.destination) {
+            if (!out.destination) {
                 bellmanFordHelperFunction(out);
             }
         }

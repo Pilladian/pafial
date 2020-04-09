@@ -2,7 +2,7 @@
 Path Finding Algorithms implemented in Java
 
 Features:
-  - creating environments with starting point and destination
+  - creating environments with start and destination
   - multiple implementations of path finding algorithms
 
 Functionality:

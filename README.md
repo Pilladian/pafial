@@ -11,5 +11,6 @@ Functionality:
     - e -> End (blue)
     - d -> default (black)
     - space -> saving image
-  - Finding Path: java -jar pafial.jar /path/to/env.png <Algorithm to use>
+  - Finding Path: 
+    - java -jar pafial.jar /path/to/env.png <Algorithm to use>
   

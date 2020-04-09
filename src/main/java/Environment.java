@@ -12,7 +12,7 @@ public class Environment {
 
     // image variables
     int size = 500;
-    int amount_squares = 5;
+    int amount_squares = 20;
 
     // Nodes of the graph
     ArrayList<Node> V = new ArrayList<>();
@@ -170,8 +170,8 @@ public class Environment {
     }
 
     public void getPath() {
-        path.add(start);
         destination.Path(path);
+        path.add(destination);
     }
 
     public void drawShortestPath() {
@@ -179,8 +179,8 @@ public class Environment {
         for (Node node : path) {
             int xMin = (node.x + 1) * mul - mul;
             int xMax = (node.x + 1) * mul;
-            int yMin = (node.x + 1) * mul - mul;
-            int yMax = (node.x + 1) * mul;
+            int yMin = (node.y + 1) * mul - mul;
+            int yMax = (node.y + 1) * mul;
             for (int a = xMin; a < xMax; a++) {
                 for (int b = yMin; b < yMax; b++) {
                     image.setRGB(a, b, 0x0000ff00);

@@ -28,8 +28,8 @@ public class Node {
 
     public void Path(ArrayList<Node> path) {
         if (!startingPoint) {
-            path.add(previous);
             previous.Path(path);
+            path.add(previous);
         }
     }
 

@@ -5,7 +5,7 @@ import numpy
 import random
 
 # Path where to save the images
-PATH = "./"
+PATH = ""
 
 # boolean which is true, if left mouse button is pressed
 drawing = False
@@ -50,7 +50,6 @@ def draw(event, xCoordinate, yCoordinate, flags, param):
         drawing = False
 
 
-# create input list for hawire
 def create_image(counter):
     # create image
     mul = size / amount_squares
@@ -109,7 +108,7 @@ def create_grid():
 # initialize blank image and mouse listener
 create_grid()
 cv2.namedWindow("Pafial - Create Environments")
-cv2.setMouseCallback("LabSo - Create Labyrinth", draw)
+cv2.setMouseCallback("Pafial - Create Environments", draw)
 
 # counter
 count = 2

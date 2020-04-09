@@ -12,7 +12,7 @@ public class Environment {
 
     // image variables
     int size = 500;
-    int amount_squares = 20;
+    int amount_squares = 5;
 
     // Nodes of the graph
     ArrayList<Node> V = new ArrayList<>();
@@ -189,7 +189,7 @@ public class Environment {
         }
         System.out.println("Path found: " + pathToString());
         try {
-            ImageIO.write(image, "", new File("/home/us3r/Downloads/test.png"));
+            ImageIO.write(image, "png", new File("/home/us3r/Downloads/test.png"));
         } catch (IOException ox) {
             ox.printStackTrace();
         }

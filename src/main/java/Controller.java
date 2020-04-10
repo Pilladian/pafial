@@ -2,15 +2,16 @@ public class Controller {
 
     public static void main(String[] args) {
         // argument handling
-        if (args.length != 1) {
+        if (args.length != 2) {
             help();
             System.exit(1);
         }
         // get path of labyrinth
         String path = args[0];
+        int amount_squares = Integer.parseInt(args[1]);
 
         // create labyrinth
-        Environment env = new Environment(path);
+        Environment env = new Environment(path, amount_squares);
         env.loadImage();
 
         // prepare data for solver
@@ -22,7 +23,7 @@ public class Controller {
         // env.printParameter(false, true);
 
         // draw shortest way trough the labyrinth
-        env.BellmanFord(env.start);
+        env.BellmanFord();
         env.getPath();
         env.drawShortestPath();
     }

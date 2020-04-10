@@ -16,7 +16,7 @@ shown_image = []
 # image variables
 size = 500
 thickness = 1
-amount_squares = 20
+amount_squares = 10
 
 # mode
 mode = 'd'
@@ -111,7 +111,7 @@ cv2.namedWindow("Pafial - Create Environments")
 cv2.setMouseCallback("Pafial - Create Environments", draw)
 
 # counter
-count = 2
+count = 3
 
 while True:
     cv2.imshow("Pafial - Create Environments", shown_image)

@@ -12,11 +12,11 @@ public class Environment {
 
     // image variables
     int size = 500;
-    int amount_squares = 20;
+    int amount_squares;
 
     // Nodes of the graph
     ArrayList<Node> V = new ArrayList<>();
-    Node[][] nodes = new Node[amount_squares][amount_squares];
+    Node[][] nodes;
     // Connections of the graph
     ArrayList<Connection> E = new ArrayList<>();
 
@@ -24,11 +24,16 @@ public class Environment {
     Node start;
     Node destination;
 
+    // neg. cycles
+    boolean neg;
+
     // Shortest path
     ArrayList<Node> path = new ArrayList<>();
 
-    public Environment(String path) {
+    public Environment(String path, int amount) {
         file = new File(path);
+        amount_squares = amount;
+        nodes  = new Node[amount_squares][amount_squares];
     }
 
     public void loadImage() {
@@ -146,16 +151,29 @@ public class Environment {
         }
     }
 
-    public void BellmanFord(Node node) {
-        node.visited = true;
-        for (Node out : node.neighbors) {
+    public void BellmanFord() {
+        for (int a = 0; a < V.size() - 1; a++) {
+            relax();
+        }
+        relax();
+        if (neg) {
+            System.out.println("Negative Cycle was found.");
+        }
+    }
 
-            if (node.distance + getWeight(node, out) < out.distance) {
-                out.distance = node.distance + getWeight(node, out);
-                out.previous = node;
-            }
-            if (!out.destination && !out.visited) {
-                BellmanFord(out);
+    public void relax() {
+        neg = false;
+        for (Connection connection : E) {
+            Node a = connection.partB;
+            Node b = connection.partA;
+            if (a.distance + connection.value < b.distance) {
+                b.distance = a.distance + connection.value;
+                b.previous = a;
+                neg = true;
+            } else if (b.distance + connection.value < a.distance) {
+                a.distance = b.distance + connection.value;
+                a.previous = b;
+                neg = true;
             }
         }
     }
